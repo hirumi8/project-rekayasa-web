@@ -7,13 +7,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a  href="{{ url('/') }}" class="nav-link">Home</a>
+                    <a href="{{ url('/') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/profile') }}">Profile</a>
+                    <a href="{{ url('/profile') }}" class="nav-link">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/about') }}">About</a>
+                    <a href="{{ url('/project') }}" class="nav-link">Project</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/about') }}" class="nav-link">About</a>
                 </li>
             </ul>
         </div>
