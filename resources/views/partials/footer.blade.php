@@ -1,5 +1,3 @@
-<footer class="bg-white text-dark border-top text-center py-3 mt-auto">
-    <div class="container">
-        <p>&copy {{ date('Y') }} UNPAM. All rights reserved.</p>
-    </div>
+<footer class="bg-white border-top py-3 text-center small text-secondary">
+    &copy; {{ date('Y') }} Ivan Hilmi Hersony - 251011701273.
 </footer>

@@ -14,11 +14,19 @@
 
         <div class="col-md-4">
             <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/'.Str::replaceLast('.jgp', '.jpg', $project->image)) }}" alt="" class="card-img-top"
+                <img src="{{ asset('images/'.$project->image) }}" alt="" class="card-img-top"
                     style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title mb-4">{{ $project->title }}</h5>
-                    <span class="badge bg-success">{{ $project->status }}</span>
+                    <div class="mb-3">
+                        @if (strtolower($project->status) === 'active')
+                        <span class="badge bg-success">Active</span>
+                        @elseif (strtolower($project->status) === 'archived')
+                        <span class="badge bg-secondary">Archived</span>
+                        @else
+                        <span class="badge bg-secondary">{{ $project->status }}</span>
+                        @endif
+                    </div>
                     <p class="card-text">{{ Str::limit($project->description,50) }}</p>
                 </div>
                 <div class="card-footer bg-white border-0 pb-3">
