@@ -16,13 +16,16 @@ class ProjectPagesTest extends TestCase
             'title' => 'Example project',
             'description' => 'A sample project description.',
             'teknologi' => 'Laravel',
+            'image' => 'missing-project-image.jpg',
             'status' => 'active',
         ]);
 
         $this->get(route('project.index'))
             ->assertOk()
             ->assertSee('Portofolio Project')
-            ->assertSee('Example project');
+            ->assertSee('Example project')
+            ->assertSee(asset('images/project-placeholder.svg'))
+            ->assertSee('Ilustrasi Example project');
     }
 
     public function test_project_detail_displays_a_project(): void
@@ -31,12 +34,15 @@ class ProjectPagesTest extends TestCase
             'title' => 'Example project',
             'description' => 'A sample project description.',
             'teknologi' => 'Laravel',
+            'image' => 'missing-project-image.jpg',
             'status' => 'active',
         ]);
 
         $this->get(route('project.show', $project->id))
             ->assertOk()
             ->assertSee('Example project')
-            ->assertSee('A sample project description.');
+            ->assertSee('A sample project description.')
+            ->assertSee(asset('images/project-placeholder.svg'))
+            ->assertSee('Ilustrasi Example project');
     }
 }

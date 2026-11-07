@@ -20,6 +20,21 @@
                 <li class="nav-item">
                     <a href="{{ route('about') }}" class="nav-link">About</a>
                 </li>
+                @guest
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}" class="nav-link">Login</a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a href="{{ route('projects.index') }}" class="nav-link">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link">Logout</button>
+                        </form>
+                    </li>
+                @endguest
             </ul>
         </div>
     </div>

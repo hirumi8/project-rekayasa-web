@@ -10,10 +10,17 @@
 
     <div class="row g-4 align-items-start">
         <div class="col-md-7">
-            <img src="{{ asset('images/' . $project->image) }}"
-                alt="{{ $project->title }}"
-                class="img-fluid w-100 rounded"
-                style="min-height: 300px; max-height: 500px; object-fit: cover;">
+            @if ($project->image && file_exists(public_path('images/' . $project->image)))
+                <img src="{{ asset('images/' . $project->image) }}"
+                    alt="Gambar {{ $project->title }}"
+                    class="img-fluid w-100 rounded"
+                    style="min-height: 300px; max-height: 500px; object-fit: cover;">
+            @else
+                <img src="{{ asset('images/project-placeholder.svg') }}"
+                    alt="Ilustrasi {{ $project->title }}"
+                    class="img-fluid w-100 rounded"
+                    style="min-height: 300px; max-height: 500px; object-fit: cover;">
+            @endif
         </div>
 
         <div class="col-md-5">

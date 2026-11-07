@@ -14,8 +14,13 @@
 
         <div class="col-md-4">
             <div class="card h-100 shadow-sm border-0">
-                <img src="{{ asset('images/'.$project->image) }}" alt="" class="card-img-top"
-                    style="height: 200px; object-fit: cover;">
+                @if ($project->image && file_exists(public_path('images/' . $project->image)))
+                    <img src="{{ asset('images/' . $project->image) }}" alt="Gambar {{ $project->title }}"
+                        class="card-img-top" style="height: 200px; object-fit: cover;">
+                @else
+                    <img src="{{ asset('images/project-placeholder.svg') }}" alt="Ilustrasi {{ $project->title }}"
+                        class="card-img-top" style="height: 200px; object-fit: cover;">
+                @endif
                 <div class="card-body">
                     <h5 class="card-title mb-4">{{ $project->title }}</h5>
                     <div class="mb-3">

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class MahasiswaController extends Controller
 {
     //
@@ -18,6 +16,6 @@ class MahasiswaController extends Controller
             'status' => 'Aktif',
         ];
 
-        return view('mahasiswa', compact('mahasiswa'));
+        return view('page.profile', compact('mahasiswa'));
     }
 }

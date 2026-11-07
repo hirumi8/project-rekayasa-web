@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -15,6 +16,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_create_page_displays_the_project_form(): void
     {
+        $this->authenticateAdmin();
+
         $this->get(route('projects.create'))
             ->assertOk()
             ->assertSee('Tambah Project')
@@ -27,6 +30,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_can_be_created_from_admin_form(): void
     {
+        $this->authenticateAdmin();
+
         $response = $this->post(route('projects.store'), [
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -45,6 +50,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_list_displays_saved_projects(): void
     {
+        $this->authenticateAdmin();
+
         Project::create([
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -57,7 +64,7 @@ class AdminProjectPagesTest extends TestCase
             ->assertSee('Data Projects')
             ->assertSee('Admin Web Profile')
             ->assertSee('Lihat Website')
-            ->assertSee('&copy; ' . date('Y') . ' Ivan Hilmi Hersony - 251011701273.', false)
+            ->assertSee('&copy; '.date('Y').' Ivan Hilmi Hersony - 251011701273.', false)
             ->assertSee('Entries per page')
             ->assertSee('Search')
             ->assertSee('Description')
@@ -66,6 +73,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_list_can_be_searched(): void
     {
+        $this->authenticateAdmin();
+
         Project::create([
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -87,6 +96,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_list_uses_requested_page_size(): void
     {
+        $this->authenticateAdmin();
+
         foreach (range(1, 11) as $number) {
             Project::create([
                 'title' => "Project {$number}",
@@ -107,6 +118,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_edit_page_displays_the_saved_values(): void
     {
+        $this->authenticateAdmin();
+
         $project = Project::create([
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -123,6 +136,8 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_project_can_be_updated_from_admin_form(): void
     {
+        $this->authenticateAdmin();
+
         $project = Project::create([
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -149,12 +164,16 @@ class AdminProjectPagesTest extends TestCase
 
     public function test_create_project_requires_the_required_fields(): void
     {
+        $this->authenticateAdmin();
+
         $this->post(route('projects.store'), [])
             ->assertSessionHasErrors(['title', 'description', 'teknologi', 'status']);
     }
 
     public function test_project_image_can_be_uploaded(): void
     {
+        $this->authenticateAdmin();
+
         $response = $this->post(route('projects.store'), [
             'title' => 'Website Kampus',
             'description' => 'Portal informasi kampus.',
@@ -166,7 +185,7 @@ class AdminProjectPagesTest extends TestCase
         $response->assertRedirect(route('projects.index'));
 
         $project = Project::where('title', 'Website Kampus')->firstOrFail();
-        $imagePath = public_path('images/' . $project->image);
+        $imagePath = public_path('images/'.$project->image);
 
         $this->assertFileExists($imagePath);
         $this->assertDatabaseHas('projects', [
@@ -175,5 +194,10 @@ class AdminProjectPagesTest extends TestCase
         ]);
 
         File::delete($imagePath);
+    }
+
+    private function authenticateAdmin(): void
+    {
+        $this->actingAs(User::factory()->create());
     }
 }
